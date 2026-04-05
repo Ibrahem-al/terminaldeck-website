@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Command,
   Search,
@@ -10,6 +11,7 @@ import {
   Bell,
   Palette,
   Terminal,
+  X,
 } from "lucide-react";
 import { BENTO_FEATURES } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
@@ -25,7 +27,6 @@ const ICON_MAP: Record<string, React.ElementType> = {
   terminal: Terminal,
 };
 
-// Every card gets a contextual background photo
 const CARD_BACKGROUNDS: Record<string, string> = {
   "Command Palette": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&q=30",
   "Global Search": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&q=30",
@@ -37,26 +38,101 @@ const CARD_BACKGROUNDS: Record<string, string> = {
   "Startup Commands": "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&q=30",
 };
 
-function BentoCard({
-  title,
-  description,
-  icon,
-  size,
-  index,
+type BentoFeature = (typeof BENTO_FEATURES)[number];
+
+function FeatureModal({
+  feature,
+  onClose,
 }: {
-  title: string;
-  description: string;
-  icon: string;
-  size: string;
-  index: number;
+  feature: BentoFeature;
+  onClose: () => void;
 }) {
-  const Icon = ICON_MAP[icon] ?? Terminal;
-  const bgImage = CARD_BACKGROUNDS[title];
+  const Icon = ICON_MAP[feature.icon] ?? Terminal;
+  const bgImage = CARD_BACKGROUNDS[feature.title];
 
   return (
-    <ScrollReveal delay={index * 0.08} className={size === "wide" ? "md:col-span-2" : ""}>
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center px-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-bg-primary/80 backdrop-blur-sm" />
+
+      {/* Modal card */}
       <motion.div
-        className="group relative rounded-2xl p-6 h-full cursor-default overflow-hidden"
+        className="relative w-full max-w-lg rounded-2xl overflow-hidden"
+        style={{
+          background: "#16162a",
+          border: "1px solid #2a2a44",
+          boxShadow: "0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(74,158,255,0.08)",
+        }}
+        initial={{ scale: 0.9, y: 20, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.95, y: 10, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Background photo */}
+        {bgImage && (
+          <div
+            className="absolute inset-0 opacity-[0.06] bg-cover bg-center pointer-events-none"
+            style={{ backgroundImage: `url(${bgImage})` }}
+          />
+        )}
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-panel/50 transition-colors cursor-pointer"
+          aria-label="Close"
+        >
+          <X size={18} />
+        </button>
+
+        <div className="relative p-8">
+          {/* Icon + title */}
+          <div className="flex items-center gap-4 mb-5">
+            <div
+              className="p-3 rounded-xl"
+              style={{ background: "#4a9eff12", border: "1px solid #4a9eff30" }}
+            >
+              <Icon size={24} className="text-accent" />
+            </div>
+            <h3 className="text-xl font-display font-bold text-text-primary">
+              {feature.title}
+            </h3>
+          </div>
+
+          {/* Full description */}
+          <p className="text-sm text-text-secondary leading-relaxed">
+            {feature.detail}
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function BentoCard({
+  feature,
+  index,
+  onSelect,
+}: {
+  feature: BentoFeature;
+  index: number;
+  onSelect: () => void;
+}) {
+  const Icon = ICON_MAP[feature.icon] ?? Terminal;
+  const bgImage = CARD_BACKGROUNDS[feature.title];
+
+  return (
+    <ScrollReveal delay={index * 0.08} className={feature.size === "wide" ? "md:col-span-2" : ""}>
+      <motion.div
+        className="group relative rounded-2xl p-6 h-full cursor-pointer overflow-hidden"
         style={{
           background: "#16162a",
           border: "1px solid #2a2a44",
@@ -67,8 +143,8 @@ function BentoCard({
           boxShadow: "0 8px 30px rgba(74,158,255,0.1), 0 0 0 1px rgba(74,158,255,0.15)",
         }}
         transition={{ duration: 0.2 }}
+        onClick={onSelect}
       >
-        {/* Optional background photo */}
         {bgImage && (
           <div
             className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none bg-cover bg-center"
@@ -89,17 +165,19 @@ function BentoCard({
               className="text-text-secondary group-hover:text-accent transition-colors duration-200"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="font-mono font-semibold text-text-primary mb-1.5 group-hover:text-accent transition-colors duration-200">
-              {title}
+              {feature.title}
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed">
-              {description}
+              {feature.description}
+            </p>
+            <p className="text-[10px] font-mono text-accent/50 mt-2 group-hover:text-accent/80 transition-colors">
+              Click to learn more
             </p>
           </div>
         </div>
 
-        {/* Subtle gradient glow on hover */}
         <div
           className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
           style={{
@@ -112,9 +190,10 @@ function BentoCard({
 }
 
 export function BentoGrid() {
+  const [selected, setSelected] = useState<BentoFeature | null>(null);
+
   return (
     <section className="relative py-28 px-6 lg:px-8">
-      {/* Background accent */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px] opacity-[0.06] pointer-events-none"
         style={{ background: "#4a9eff" }}
@@ -139,15 +218,23 @@ export function BentoGrid() {
           {BENTO_FEATURES.map((feature, i) => (
             <BentoCard
               key={feature.title}
-              title={feature.title}
-              description={feature.description}
-              icon={feature.icon}
-              size={feature.size}
+              feature={feature}
               index={i}
+              onSelect={() => setSelected(feature)}
             />
           ))}
         </div>
       </div>
+
+      {/* Feature detail modal */}
+      <AnimatePresence>
+        {selected && (
+          <FeatureModal
+            feature={selected}
+            onClose={() => setSelected(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
