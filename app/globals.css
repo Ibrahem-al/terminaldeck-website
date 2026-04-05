@@ -60,3 +60,21 @@ body {
   background: rgba(74, 158, 255, 0.3);
   color: #fff;
 }
+
+/* Animated gradient blobs for section backgrounds */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-10px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 10px) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-blob {
+    animation: blob-drift 20s ease-in-out infinite;
+  }
+  .animate-blob-delay {
+    animation: blob-drift 25s ease-in-out infinite;
+    animation-delay: -7s;
+  }
+}

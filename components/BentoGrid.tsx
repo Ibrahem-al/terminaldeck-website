@@ -25,6 +25,12 @@ const ICON_MAP: Record<string, React.ElementType> = {
   terminal: Terminal,
 };
 
+// Cards that get a subtle background photo
+const CARD_BACKGROUNDS: Record<string, string> = {
+  "Theming": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=40",
+  "Layout Presets": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=40",
+};
+
 function BentoCard({
   title,
   description,
@@ -39,11 +45,12 @@ function BentoCard({
   index: number;
 }) {
   const Icon = ICON_MAP[icon] ?? Terminal;
+  const bgImage = CARD_BACKGROUNDS[title];
 
   return (
     <ScrollReveal delay={index * 0.08} className={size === "wide" ? "md:col-span-2" : ""}>
       <motion.div
-        className="group relative rounded-2xl p-6 h-full cursor-default"
+        className="group relative rounded-2xl p-6 h-full cursor-default overflow-hidden"
         style={{
           background: "#16162a",
           border: "1px solid #2a2a44",
@@ -55,7 +62,15 @@ function BentoCard({
         }}
         transition={{ duration: 0.2 }}
       >
-        <div className="flex items-start gap-4">
+        {/* Optional background photo */}
+        {bgImage && (
+          <div
+            className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none bg-cover bg-center"
+            style={{ backgroundImage: `url(${bgImage})` }}
+          />
+        )}
+
+        <div className="relative flex items-start gap-4">
           <div
             className="p-2.5 rounded-xl transition-colors duration-200"
             style={{

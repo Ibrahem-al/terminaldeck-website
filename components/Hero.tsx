@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Download, Apple, ChevronDown } from "lucide-react";
-import { TerminalMockup } from "./TerminalMockup";
+import { InteractiveCanvas } from "./InteractiveCanvas";
+import { ParticleBackground } from "./ParticleBackground";
 import { useOSDetect } from "@/lib/useOSDetect";
 
 function WindowsIcon({ size = 16 }: { size?: number }) {
@@ -18,27 +19,8 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-12 overflow-hidden">
-      {/* Background gradient orbs */}
-      <div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-20 pointer-events-none"
-        style={{ background: "#4a9eff" }}
-      />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px] opacity-10 pointer-events-none"
-        style={{ background: "#22c55e" }}
-      />
-
-      {/* Dot grid background */}
-      <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="heroDots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="16" cy="16" r="1" fill="#8888aa" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#heroDots)" />
-        </svg>
-      </div>
+      {/* Interactive particle background with gradient mesh */}
+      <ParticleBackground />
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto text-center mb-12">
@@ -103,19 +85,19 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Animated terminal mockup */}
+      {/* Interactive draggable canvas demo */}
       <motion.div
         className="relative z-10 w-full max-w-5xl mx-auto px-4"
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
       >
-        <TerminalMockup />
+        <InteractiveCanvas />
       </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
