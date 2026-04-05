@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Download, Apple, Monitor, Cpu } from "lucide-react";
 import { useOSDetect } from "@/lib/useOSDetect";
 import { ScrollReveal } from "./ScrollReveal";
+import { TextReveal } from "./TextReveal";
 
 function WindowsIcon({ size = 18 }: { size?: number }) {
   return (
@@ -41,16 +42,13 @@ export function DownloadCTA() {
             </span>
           </div>
 
-          <h2
-            className="font-display font-bold tracking-tight text-text-primary mb-6"
-            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-          >
-            Ready to see all your terminals?
-          </h2>
-          <p className="text-text-secondary text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+          <TextReveal as="h2" className="font-display font-bold tracking-tight text-text-primary mb-6">
+            <span style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>Ready to see all your terminals?</span>
+          </TextReveal>
+          <TextReveal as="p" className="text-text-secondary text-lg max-w-xl mx-auto mb-10 leading-relaxed" delay={0.12}>
             Download TerminalDeck and transform how you work with multiple
             terminals. Available for Windows and macOS.
-          </p>
+          </TextReveal>
         </ScrollReveal>
 
         {/* Download buttons */}

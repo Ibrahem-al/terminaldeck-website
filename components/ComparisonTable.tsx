@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Check, X, Minus } from "lucide-react";
 import { COMPARISON_DATA } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
+import { TextReveal } from "./TextReveal";
 
 function CellValue({ value }: { value: boolean | string }) {
   if (value === true) {
@@ -37,19 +38,16 @@ export function ComparisonTable() {
   return (
     <section id="compare" className="relative py-28 px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <ScrollReveal>
-          <div className="text-center mb-16">
-            <h2
-              className="font-display font-bold tracking-tight text-text-primary mb-4"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-            >
+        <div className="text-center mb-16">
+          <TextReveal as="h2" className="font-display font-bold tracking-tight text-text-primary mb-4">
+            <span style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
               Why <span className="text-accent">TerminalDeck</span>?
-            </h2>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto">
-              The features you need, that no other terminal offers.
-            </p>
-          </div>
-        </ScrollReveal>
+            </span>
+          </TextReveal>
+          <TextReveal as="p" className="text-text-secondary text-lg max-w-xl mx-auto" delay={0.12}>
+            The features you need, that no other terminal offers.
+          </TextReveal>
+        </div>
 
         <ScrollReveal>
           <div className="overflow-x-auto -mx-6 px-6">

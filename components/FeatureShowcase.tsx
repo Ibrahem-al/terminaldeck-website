@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { FEATURES } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
+import { TextReveal } from "./TextReveal";
 import dynamic from "next/dynamic";
 
 const FeatureCanvas3D = dynamic(
@@ -325,21 +326,18 @@ export function FeatureShowcase() {
     <section id="features" className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Section header */}
-        <ScrollReveal>
-          <div className="text-center mb-16">
-            <h2
-              className="font-display font-bold tracking-tight text-text-primary mb-4"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
-            >
+        <div className="text-center mb-16">
+          <TextReveal as="h2" className="font-display font-bold tracking-tight text-text-primary mb-4" delay={0}>
+            <span style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}>
               Everything you need,{" "}
               <span className="text-accent">nothing you don&apos;t.</span>
-            </h2>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto">
-              Built from the ground up for developers managing complex workflows
-              across multiple terminals.
-            </p>
-          </div>
-        </ScrollReveal>
+            </span>
+          </TextReveal>
+          <TextReveal as="p" className="text-text-secondary text-lg max-w-xl mx-auto" delay={0.15}>
+            Built from the ground up for developers managing complex workflows
+            across multiple terminals.
+          </TextReveal>
+        </div>
 
         {/* Two-column layout: scrolling text left, sticky visual right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">

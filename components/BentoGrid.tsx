@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { BENTO_FEATURES } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
+import { TextReveal } from "./TextReveal";
+import { Parallax } from "./Parallax";
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   command: Command,
@@ -200,20 +202,16 @@ export function BentoGrid() {
       />
 
       <div className="mx-auto max-w-5xl">
-        <ScrollReveal>
-          <div className="text-center mb-16">
-            <h2
-              className="font-display font-bold tracking-tight text-text-primary mb-4"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-            >
-              And so much more.
-            </h2>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto">
-              Every detail designed for developers who demand the best from their tools.
-            </p>
-          </div>
-        </ScrollReveal>
+        <div className="text-center mb-16">
+          <TextReveal as="h2" className="font-display font-bold tracking-tight text-text-primary mb-4" delay={0}>
+            <span style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>And so much more.</span>
+          </TextReveal>
+          <TextReveal as="p" className="text-text-secondary text-lg max-w-xl mx-auto" delay={0.12}>
+            Every detail designed for developers who demand the best from their tools.
+          </TextReveal>
+        </div>
 
+        <Parallax speed={-0.08}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {BENTO_FEATURES.map((feature, i) => (
             <BentoCard
@@ -224,6 +222,7 @@ export function BentoGrid() {
             />
           ))}
         </div>
+        </Parallax>
       </div>
 
       {/* Feature detail modal */}

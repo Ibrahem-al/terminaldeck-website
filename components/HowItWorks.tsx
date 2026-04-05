@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Download, FolderPlus, LayoutDashboard } from "lucide-react";
 import { ScrollReveal } from "./ScrollReveal";
+import { TextReveal } from "./TextReveal";
 
 const STEPS = [
   {
@@ -29,20 +30,17 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative py-28 px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <ScrollReveal>
-          <div className="text-center mb-20">
-            <h2
-              className="font-display font-bold tracking-tight text-text-primary mb-4"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-            >
+        <div className="text-center mb-20">
+          <TextReveal as="h2" className="font-display font-bold tracking-tight text-text-primary mb-4">
+            <span style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
               Up and running in{" "}
               <span className="text-accent">minutes.</span>
-            </h2>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto">
-              No configuration files. No complex setup. Just install and start working.
-            </p>
-          </div>
-        </ScrollReveal>
+            </span>
+          </TextReveal>
+          <TextReveal as="p" className="text-text-secondary text-lg max-w-xl mx-auto" delay={0.12}>
+            No configuration files. No complex setup. Just install and start working.
+          </TextReveal>
+        </div>
 
         <div className="relative">
           {/* Connecting line */}
