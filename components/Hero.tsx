@@ -14,6 +14,15 @@ function WindowsIcon({ size = 16 }: { size?: number }) {
   );
 }
 
+const FLOATING_TAGS = [
+  { label: "AI-Aware", x: "8%", y: "18%", delay: 0 },
+  { label: "Snap Guides", x: "82%", y: "22%", delay: 1.5 },
+  { label: "Cross-Platform", x: "5%", y: "72%", delay: 3 },
+  { label: "Open Source", x: "88%", y: "68%", delay: 4.5 },
+  { label: "Infinite Canvas", x: "14%", y: "45%", delay: 2.2 },
+  { label: "Focus Mode", x: "80%", y: "45%", delay: 3.8 },
+];
+
 export function Hero() {
   const os = useOSDetect();
 
@@ -22,17 +31,48 @@ export function Hero() {
       {/* Interactive particle background with gradient mesh */}
       <ParticleBackground />
 
+      {/* Floating feature tags */}
+      {FLOATING_TAGS.map((tag) => (
+        <motion.div
+          key={tag.label}
+          className="absolute hidden lg:block pointer-events-none select-none"
+          style={{ left: tag.x, top: tag.y, zIndex: 2 }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 0.35, 0.35, 0],
+            y: [0, -8, -8, 0],
+          }}
+          transition={{
+            duration: 8,
+            delay: tag.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <span
+            className="px-3 py-1 rounded-full text-[10px] font-mono"
+            style={{
+              background: "rgba(74,158,255,0.06)",
+              border: "1px solid rgba(74,158,255,0.12)",
+              color: "rgba(74,158,255,0.6)",
+            }}
+          >
+            {tag.label}
+          </span>
+        </motion.div>
+      ))}
+
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto text-center mb-12">
         {/* Badge */}
         <motion.div
-          className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 mb-8"
+          className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-2 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-          <span className="text-xs font-mono font-medium text-accent">Free for Windows & macOS</span>
+          <span className="text-xs font-mono font-semibold text-accent tracking-wide">Free for Windows & macOS</span>
         </motion.div>
 
         {/* Headline */}
@@ -69,7 +109,7 @@ export function Hero() {
         >
           <a
             href="#download"
-            className="group inline-flex items-center gap-2.5 rounded-xl bg-accent px-7 py-3.5 text-base font-semibold text-white transition-all duration-200 hover:brightness-110 hover:shadow-[0_0_30px_rgba(74,158,255,0.3)] cursor-pointer"
+            className="group inline-flex items-center gap-2.5 rounded-xl bg-accent px-7 py-3.5 text-base font-semibold text-white transition-all duration-200 hover:brightness-110 hover:shadow-[0_0_30px_rgba(74,158,255,0.4)] cursor-pointer"
           >
             {os === "mac" ? <Apple size={18} /> : <WindowsIcon size={16} />}
             Download for {os === "mac" ? "macOS" : "Windows"}
@@ -78,20 +118,28 @@ export function Hero() {
 
           <a
             href="#features"
-            className="inline-flex items-center gap-2 rounded-xl border border-border bg-bg-card/50 px-7 py-3.5 text-base font-medium text-text-secondary transition-all duration-200 hover:text-text-primary hover:border-accent/40 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-bg-card/50 px-7 py-3.5 text-base font-medium text-text-secondary transition-all duration-200 hover:text-text-primary hover:border-accent/40 hover:bg-bg-card cursor-pointer"
           >
             See Features
           </a>
         </motion.div>
       </div>
 
-      {/* Interactive draggable canvas demo */}
+      {/* Interactive draggable canvas demo with glow border */}
       <motion.div
         className="relative z-10 w-full max-w-5xl mx-auto px-4"
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
       >
+        {/* Animated glow behind the demo */}
+        <div
+          className="absolute -inset-1 rounded-2xl opacity-60 blur-xl pointer-events-none animate-pulse"
+          style={{
+            background: "linear-gradient(135deg, rgba(74,158,255,0.15), rgba(34,197,94,0.08), rgba(74,158,255,0.1))",
+            animationDuration: "4s",
+          }}
+        />
         <InteractiveCanvas />
       </motion.div>
 

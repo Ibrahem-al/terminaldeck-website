@@ -29,21 +29,19 @@ export function ParticleBackground() {
   const visibleRef = useRef(true);
 
   const init = useCallback((width: number, height: number) => {
-    // Particles
-    const count = Math.min(70, Math.floor((width * height) / 15000));
+    const count = Math.min(80, Math.floor((width * height) / 12000));
     particlesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      size: Math.random() * 1.5 + 1,
     }));
 
-    // Gradient blobs
     blobsRef.current = [
-      { x: width * 0.3, y: height * 0.3, radius: width * 0.35, color: "rgba(74,158,255,0.07)", vx: 0.15, vy: 0.1, phase: 0 },
-      { x: width * 0.7, y: height * 0.6, radius: width * 0.3, color: "rgba(34,197,94,0.04)", vx: -0.1, vy: 0.12, phase: 2 },
-      { x: width * 0.5, y: height * 0.8, radius: width * 0.25, color: "rgba(74,158,255,0.05)", vx: 0.08, vy: -0.15, phase: 4 },
+      { x: width * 0.25, y: height * 0.3, radius: width * 0.4, color: "rgba(74,158,255,0.12)", vx: 0.2, vy: 0.12, phase: 0 },
+      { x: width * 0.75, y: height * 0.6, radius: width * 0.35, color: "rgba(34,197,94,0.08)", vx: -0.15, vy: 0.18, phase: 2 },
+      { x: width * 0.5, y: height * 0.8, radius: width * 0.3, color: "rgba(74,158,255,0.10)", vx: 0.1, vy: -0.2, phase: 4 },
     ];
   }, []);
 
@@ -54,30 +52,50 @@ export function ParticleBackground() {
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    // Reduced motion check
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
       const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       init(rect.width, rect.height);
     };
 
-    resize();
+    // Defer first resize to ensure layout is done
+    requestAnimationFrame(() => {
+      resize();
+
+      // Draw static blobs once for reduced-motion users
+      if (prefersReduced) {
+        const w = canvas.width / Math.min(window.devicePixelRatio, 2);
+        const h = canvas.height / Math.min(window.devicePixelRatio, 2);
+        ctx.clearRect(0, 0, w, h);
+        for (const blob of blobsRef.current) {
+          const grad = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.radius);
+          grad.addColorStop(0, blob.color);
+          grad.addColorStop(1, "transparent");
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+        }
+        return;
+      }
+
+      // Start animation loop
+      draw();
+    });
+
     window.addEventListener("resize", resize);
 
-    // IntersectionObserver to pause when off-screen
     const observer = new IntersectionObserver(
       ([entry]) => { visibleRef.current = entry.isIntersecting; },
       { threshold: 0 }
     );
     observer.observe(canvas);
 
-    // Mouse tracking — listen on parent since canvas has pointer-events: none
+    // Mouse tracking on parent (canvas has pointer-events: none)
     const parent = canvas.parentElement;
     const onMouse = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -89,37 +107,38 @@ export function ParticleBackground() {
 
     let time = 0;
 
-    const draw = () => {
+    function draw() {
       animFrameRef.current = requestAnimationFrame(draw);
       if (!visibleRef.current) return;
 
-      const w = canvas.width / (Math.min(window.devicePixelRatio, 2));
-      const h = canvas.height / (Math.min(window.devicePixelRatio, 2));
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      const w = canvas!.width / dpr;
+      const h = canvas!.height / dpr;
+      if (w === 0 || h === 0) return;
       time += 0.005;
 
-      ctx.clearRect(0, 0, w, h);
+      ctx!.clearRect(0, 0, w, h);
 
-      // Draw gradient blobs
+      // Gradient blobs
       for (const blob of blobsRef.current) {
         blob.x += blob.vx;
         blob.y += blob.vy;
-        // Bounce off edges softly
-        if (blob.x < -blob.radius * 0.5 || blob.x > w + blob.radius * 0.5) blob.vx *= -1;
-        if (blob.y < -blob.radius * 0.5 || blob.y > h + blob.radius * 0.5) blob.vy *= -1;
+        if (blob.x < -blob.radius * 0.3 || blob.x > w + blob.radius * 0.3) blob.vx *= -1;
+        if (blob.y < -blob.radius * 0.3 || blob.y > h + blob.radius * 0.3) blob.vy *= -1;
 
         const pulse = Math.sin(time + blob.phase) * 0.15 + 1;
-        const grad = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.radius * pulse);
+        const grad = ctx!.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.radius * pulse);
         grad.addColorStop(0, blob.color);
         grad.addColorStop(1, "transparent");
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, w, h);
+        ctx!.fillStyle = grad;
+        ctx!.fillRect(0, 0, w, h);
       }
 
-      // Draw particles
+      // Particles
       const particles = particlesRef.current;
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
-      const connectDist = 120;
+      const connectDist = 130;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -128,31 +147,27 @@ export function ParticleBackground() {
         const dmx = p.x - mx;
         const dmy = p.y - my;
         const distMouse = Math.sqrt(dmx * dmx + dmy * dmy);
-        if (distMouse < 150) {
-          const force = (150 - distMouse) / 150 * 0.8;
+        if (distMouse < 160) {
+          const force = (160 - distMouse) / 160 * 1.0;
           p.vx += (dmx / distMouse) * force;
           p.vy += (dmy / distMouse) * force;
         }
 
-        // Friction
-        p.vx *= 0.98;
-        p.vy *= 0.98;
-
-        // Move
+        p.vx *= 0.97;
+        p.vy *= 0.97;
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap edges
         if (p.x < 0) p.x = w;
         if (p.x > w) p.x = 0;
         if (p.y < 0) p.y = h;
         if (p.y > h) p.y = 0;
 
         // Draw particle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(136,136,170,0.35)";
-        ctx.fill();
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx!.fillStyle = "rgba(136,136,170,0.5)";
+        ctx!.fill();
 
         // Connect nearby particles
         for (let j = i + 1; j < particles.length; j++) {
@@ -161,18 +176,16 @@ export function ParticleBackground() {
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < connectDist) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(74,158,255,${0.12 * (1 - dist / connectDist)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            ctx!.beginPath();
+            ctx!.moveTo(p.x, p.y);
+            ctx!.lineTo(p2.x, p2.y);
+            ctx!.strokeStyle = `rgba(74,158,255,${0.2 * (1 - dist / connectDist)})`;
+            ctx!.lineWidth = 0.6;
+            ctx!.stroke();
           }
         }
       }
-    };
-
-    draw();
+    }
 
     return () => {
       cancelAnimationFrame(animFrameRef.current);
@@ -187,7 +200,7 @@ export function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ zIndex: 0, pointerEvents: "none" }}
+      style={{ zIndex: 1, pointerEvents: "none" }}
       aria-hidden="true"
     />
   );
