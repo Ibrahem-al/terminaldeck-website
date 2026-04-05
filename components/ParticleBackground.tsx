@@ -77,14 +77,15 @@ export function ParticleBackground() {
     );
     observer.observe(canvas);
 
-    // Mouse tracking
+    // Mouse tracking — listen on parent since canvas has pointer-events: none
+    const parent = canvas.parentElement;
     const onMouse = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
     const onLeave = () => { mouseRef.current = { x: -1000, y: -1000 }; };
-    canvas.addEventListener("mousemove", onMouse);
-    canvas.addEventListener("mouseleave", onLeave);
+    parent?.addEventListener("mousemove", onMouse);
+    parent?.addEventListener("mouseleave", onLeave);
 
     let time = 0;
 
@@ -176,8 +177,8 @@ export function ParticleBackground() {
     return () => {
       cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", onMouse);
-      canvas.removeEventListener("mouseleave", onLeave);
+      parent?.removeEventListener("mousemove", onMouse);
+      parent?.removeEventListener("mouseleave", onLeave);
       observer.disconnect();
     };
   }, [init]);
@@ -185,8 +186,8 @@ export function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
-      style={{ zIndex: 0 }}
+      className="absolute inset-0 w-full h-full"
+      style={{ zIndex: 0, pointerEvents: "none" }}
       aria-hidden="true"
     />
   );

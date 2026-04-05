@@ -233,6 +233,16 @@ function CanvasStage({ activeIndex }: { activeIndex: number }) {
   );
 }
 
+// Background photos for each feature — relevant to what the feature represents
+const FEATURE_PHOTOS: Record<string, string> = {
+  canvas: "https://images.unsplash.com/photo-1550439062-609e1531270e?w=800&q=30",
+  "ai-indicators": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=30",
+  "snap-guides": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=30",
+  projects: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=30",
+  "focus-mode": "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&q=30",
+  embed: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=30",
+};
+
 // Each feature card on the left — observed individually
 function FeatureCard({
   feature,
@@ -245,6 +255,7 @@ function FeatureCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const Icon = FEATURE_ICONS[index];
+  const bgPhoto = FEATURE_PHOTOS[feature.id];
 
   useEffect(() => {
     const el = ref.current;
@@ -264,13 +275,21 @@ function FeatureCard({
   return (
     <motion.div
       ref={ref}
-      className="py-14 first:pt-4 last:pb-4"
+      className="group relative py-10 first:pt-4 last:pb-4 overflow-hidden rounded-xl"
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <div className="flex items-start gap-4">
+      {/* Background photo — subtle, tied to this feature */}
+      {bgPhoto && (
+        <div
+          className="absolute inset-0 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-700 bg-cover bg-center pointer-events-none"
+          style={{ backgroundImage: `url(${bgPhoto})` }}
+        />
+      )}
+
+      <div className="relative flex items-start gap-4 px-4">
         <div
           className="shrink-0 p-2.5 rounded-xl"
           style={{ background: "#4a9eff10", border: "1px solid #4a9eff25" }}
