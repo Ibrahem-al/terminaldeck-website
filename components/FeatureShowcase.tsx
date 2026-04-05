@@ -14,7 +14,6 @@ import { FEATURES } from "@/lib/constants";
 
 const FEATURE_ICONS = [Layers, Activity, Magnet, FolderKanban, Maximize2, AppWindow];
 
-// Simplified canvas visualization for each feature stage
 function CanvasStage({ activeIndex }: { activeIndex: number }) {
   return (
     <div
@@ -26,7 +25,6 @@ function CanvasStage({ activeIndex }: { activeIndex: number }) {
         boxShadow: "0 20px 50px -12px rgba(0,0,0,0.5)",
       }}
     >
-      {/* Dot grid */}
       <svg className="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="showcaseDots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -261,33 +259,33 @@ export function FeatureShowcase() {
       ref={sectionRef}
       id="features"
       className="relative"
-      style={{ minHeight: "350vh" }}
+      style={{ minHeight: "300vh" }}
     >
-      <div className="sticky top-0 min-h-screen flex items-center py-20">
+      <div className="sticky top-0 min-h-screen flex items-center py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
           {/* Section header */}
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: isInView ? 1 : 0 }}
             transition={{ duration: 0.5 }}
           >
             <h2
-              className="font-bold tracking-tight text-text-primary mb-4"
-              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+              className="font-bold tracking-tight text-text-primary mb-3"
+              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)" }}
             >
               Everything you need,{" "}
               <span className="text-accent">nothing you don&apos;t.</span>
             </h2>
-            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+            <p className="text-text-secondary text-base max-w-xl mx-auto">
               Built from the ground up for developers managing complex workflows
               across multiple terminals.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Feature list */}
-            <div className="space-y-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Left: Feature list — compact */}
+            <div className="space-y-1">
               {FEATURES.map((feature, i) => {
                 const Icon = FEATURE_ICONS[i];
                 const isActive = activeFeature === i;
@@ -295,43 +293,49 @@ export function FeatureShowcase() {
                 return (
                   <motion.div
                     key={feature.id}
-                    className="relative rounded-xl p-5 transition-all duration-300 cursor-default"
+                    className="relative rounded-lg px-4 py-3 transition-all duration-300 cursor-default"
                     style={{
                       background: isActive ? "#16162a" : "transparent",
                       border: isActive ? "1px solid #2a2a44" : "1px solid transparent",
                     }}
                     animate={{
                       x: isActive ? 0 : -4,
-                      opacity: isActive ? 1 : 0.5,
+                      opacity: isActive ? 1 : 0.45,
                     }}
                     transition={{ duration: 0.3 }}
                   >
-                    {/* Active indicator bar */}
                     {isActive && (
                       <motion.div
-                        className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-full bg-accent"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 rounded-full bg-accent"
                         layoutId="activeIndicator"
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
                     )}
 
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-center gap-3">
                       <div
-                        className="mt-0.5 p-2 rounded-lg"
+                        className="shrink-0 p-1.5 rounded-md"
                         style={{
                           background: isActive ? "#4a9eff15" : "#16162a",
                           border: `1px solid ${isActive ? "#4a9eff33" : "#2a2a44"}`,
                         }}
                       >
-                        <Icon size={18} className={isActive ? "text-accent" : "text-text-secondary"} />
+                        <Icon size={15} className={isActive ? "text-accent" : "text-text-secondary"} />
                       </div>
-                      <div>
-                        <h3 className={`font-semibold mb-1 ${isActive ? "text-text-primary" : "text-text-secondary"}`}>
+                      <div className="min-w-0">
+                        <h3 className={`text-sm font-semibold leading-tight ${isActive ? "text-text-primary" : "text-text-secondary"}`}>
                           {feature.title}
                         </h3>
-                        <p className="text-sm text-text-secondary leading-relaxed">
-                          {isActive ? feature.description : feature.detail}
-                        </p>
+                        {isActive && (
+                          <motion.p
+                            className="text-xs text-text-secondary leading-snug mt-1"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            {feature.detail}
+                          </motion.p>
+                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -345,18 +349,23 @@ export function FeatureShowcase() {
             </div>
           </div>
 
-          {/* Progress dots */}
-          <div className="flex justify-center gap-2 mt-10">
-            {FEATURES.map((_, i) => (
-              <div
-                key={i}
-                className="w-2 h-2 rounded-full transition-all duration-300"
-                style={{
-                  background: i === activeFeature ? "#4a9eff" : "#2a2a44",
-                  boxShadow: i === activeFeature ? "0 0 8px rgba(74,158,255,0.5)" : "none",
-                }}
-              />
-            ))}
+          {/* Progress bar */}
+          <div className="mt-6 max-w-xs mx-auto">
+            <div className="flex items-center gap-1.5">
+              {FEATURES.map((_, i) => (
+                <div
+                  key={i}
+                  className="h-1 flex-1 rounded-full transition-all duration-300"
+                  style={{
+                    background: i <= activeFeature ? "#4a9eff" : "#2a2a44",
+                    boxShadow: i === activeFeature ? "0 0 6px rgba(74,158,255,0.4)" : "none",
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-center text-[10px] text-text-secondary/50 mt-2 font-mono">
+              Scroll to explore {activeFeature + 1}/{FEATURES.length}
+            </p>
           </div>
         </div>
       </div>
