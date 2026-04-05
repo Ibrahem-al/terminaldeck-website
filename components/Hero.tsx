@@ -32,12 +32,12 @@ export function Hero() {
           transition={{ duration: 0.5 }}
         >
           <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-          <span className="text-xs font-medium text-accent">Free for Windows & macOS</span>
+          <span className="text-xs font-mono font-medium text-accent">Free for Windows & macOS</span>
         </motion.div>
 
         {/* Headline */}
         <motion.h1
-          className="font-bold tracking-tight text-text-primary mb-6"
+          className="font-display font-bold tracking-tight text-text-primary mb-6"
           style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", lineHeight: 1.1 }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

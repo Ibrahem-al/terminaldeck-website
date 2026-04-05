@@ -16,6 +16,7 @@
   --color-glow-green: rgba(34, 197, 94, 0.2);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-space-grotesk);
 }
 
 html {

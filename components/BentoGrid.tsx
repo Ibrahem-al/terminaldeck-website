@@ -90,7 +90,7 @@ function BentoCard({
             />
           </div>
           <div>
-            <h3 className="font-semibold text-text-primary mb-1.5 group-hover:text-accent transition-colors duration-200">
+            <h3 className="font-mono font-semibold text-text-primary mb-1.5 group-hover:text-accent transition-colors duration-200">
               {title}
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed">
@@ -124,7 +124,7 @@ export function BentoGrid() {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2
-              className="font-bold tracking-tight text-text-primary mb-4"
+              className="font-display font-bold tracking-tight text-text-primary mb-4"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
               And so much more.

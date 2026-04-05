@@ -36,13 +36,13 @@ export function DownloadCTA() {
             }}
           >
             <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-            <span className="text-xs font-medium text-accent-green">
+            <span className="text-xs font-mono font-medium text-accent-green">
               Free — No account required
             </span>
           </div>
 
           <h2
-            className="font-bold tracking-tight text-text-primary mb-6"
+            className="font-display font-bold tracking-tight text-text-primary mb-6"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
             Ready to see all your terminals?

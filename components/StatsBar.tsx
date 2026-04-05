@@ -71,10 +71,10 @@ export function StatsBar() {
                 <stat.icon size={18} className="text-accent" />
               </div>
               <div>
-                <p className="text-xl font-bold text-text-primary leading-none mb-0.5">
+                <p className="text-xl font-display font-bold text-text-primary leading-none mb-0.5">
                   <AnimatedNumber value={stat.value} suffix={stat.suffix} isText={stat.isText} />
                 </p>
-                <p className="text-xs text-text-secondary">{stat.label}</p>
+                <p className="text-xs font-mono text-text-secondary">{stat.label}</p>
               </div>
             </div>
           ))}

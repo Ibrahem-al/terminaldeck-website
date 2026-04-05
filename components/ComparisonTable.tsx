@@ -40,7 +40,7 @@ export function ComparisonTable() {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2
-              className="font-bold tracking-tight text-text-primary mb-4"
+              className="font-display font-bold tracking-tight text-text-primary mb-4"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
               Why <span className="text-accent">TerminalDeck</span>?

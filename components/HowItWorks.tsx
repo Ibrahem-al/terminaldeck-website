@@ -31,7 +31,7 @@ export function HowItWorks() {
         <ScrollReveal>
           <div className="text-center mb-20">
             <h2
-              className="font-bold tracking-tight text-text-primary mb-4"
+              className="font-display font-bold tracking-tight text-text-primary mb-4"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
               Up and running in{" "}
@@ -74,7 +74,7 @@ export function HowItWorks() {
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                  <h3 className="text-lg font-display font-semibold text-text-primary mb-3">
                     {step.title}
                   </h3>
                   <p className="text-sm text-text-secondary leading-relaxed max-w-xs">

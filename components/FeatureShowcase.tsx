@@ -297,7 +297,7 @@ function FeatureCard({
           <Icon size={20} className="text-accent" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-text-primary mb-2">
+          <h3 className="text-lg font-display font-semibold text-text-primary mb-2">
             {feature.title}
           </h3>
           <p className="text-sm text-text-secondary leading-relaxed mb-1.5">
@@ -322,7 +322,7 @@ export function FeatureShowcase() {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2
-              className="font-bold tracking-tight text-text-primary mb-4"
+              className="font-display font-bold tracking-tight text-text-primary mb-4"
               style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
             >
               Everything you need,{" "}
