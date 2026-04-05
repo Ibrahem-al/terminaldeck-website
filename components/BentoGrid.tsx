@@ -16,7 +16,7 @@ import {
 import { BENTO_FEATURES } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   command: Command,
   search: Search,
   "layout-grid": LayoutGrid,
@@ -47,7 +47,7 @@ function FeatureModal({
   feature: BentoFeature;
   onClose: () => void;
 }) {
-  const Icon = ICON_MAP[feature.icon] ?? Terminal;
+  const Icon = ICON_MAP[feature.icon as string] ?? Terminal;
   const bgImage = CARD_BACKGROUNDS[feature.title];
 
   return (

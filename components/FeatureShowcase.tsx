@@ -12,6 +12,12 @@ import {
 } from "lucide-react";
 import { FEATURES } from "@/lib/constants";
 import { ScrollReveal } from "./ScrollReveal";
+import dynamic from "next/dynamic";
+
+const FeatureCanvas3D = dynamic(
+  () => import("./FeatureCanvas3D").then((m) => m.FeatureCanvas3D),
+  { ssr: false }
+);
 
 const FEATURE_ICONS = [Layers, Activity, Magnet, FolderKanban, Maximize2, AppWindow];
 
@@ -349,7 +355,7 @@ export function FeatureShowcase() {
             ))}
           </div>
 
-          {/* Right column: sticky canvas that reacts to which feature is in view */}
+          {/* Right column: sticky 3D canvas that reacts to which feature is in view */}
           <div className="hidden lg:block">
             <motion.div
               className="sticky top-28"
@@ -358,7 +364,7 @@ export function FeatureShowcase() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <CanvasStage activeIndex={activeFeature} />
+              <FeatureCanvas3D activeIndex={activeFeature} />
 
               {/* Progress indicator below canvas */}
               <motion.div
