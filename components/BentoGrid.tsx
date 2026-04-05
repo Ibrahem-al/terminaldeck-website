@@ -25,10 +25,16 @@ const ICON_MAP: Record<string, React.ElementType> = {
   terminal: Terminal,
 };
 
-// Cards that get a subtle background photo
+// Every card gets a contextual background photo
 const CARD_BACKGROUNDS: Record<string, string> = {
-  "Theming": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=40",
-  "Layout Presets": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=40",
+  "Command Palette": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&q=30",
+  "Global Search": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&q=30",
+  "Layout Presets": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=30",
+  "Full Persistence": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=30",
+  "Import / Export": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=30",
+  "Smart Notifications": "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&q=30",
+  "Theming": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=30",
+  "Startup Commands": "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&q=30",
 };
 
 function BentoCard({
