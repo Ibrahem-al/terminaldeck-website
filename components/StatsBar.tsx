@@ -62,8 +62,15 @@ export function StatsBar() {
         transition={{ duration: 0.5 }}
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-3">
+          {STATS.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 * i }}
+            >
               <div
                 className="shrink-0 p-2 rounded-lg"
                 style={{ background: "#4a9eff10", border: "1px solid #4a9eff20" }}
@@ -76,7 +83,7 @@ export function StatsBar() {
                 </p>
                 <p className="text-xs font-mono text-text-secondary">{stat.label}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </motion.div>

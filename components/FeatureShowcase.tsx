@@ -351,11 +351,23 @@ export function FeatureShowcase() {
 
           {/* Right column: sticky canvas that reacts to which feature is in view */}
           <div className="hidden lg:block">
-            <div className="sticky top-28">
+            <motion.div
+              className="sticky top-28"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <CanvasStage activeIndex={activeFeature} />
 
               {/* Progress indicator below canvas */}
-              <div className="mt-5 flex items-center gap-1.5 max-w-xs mx-auto">
+              <motion.div
+                className="mt-5 flex items-center gap-1.5 max-w-xs mx-auto"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.5 }}
+              >
                 {FEATURES.map((_, i) => (
                   <div
                     key={i}
@@ -366,15 +378,15 @@ export function FeatureShowcase() {
                     }}
                   />
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
 
         {/* Mobile: show canvas statically below features (no sticky on mobile) */}
-        <div className="lg:hidden mt-12">
+        <ScrollReveal className="lg:hidden mt-12">
           <CanvasStage activeIndex={5} />
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
