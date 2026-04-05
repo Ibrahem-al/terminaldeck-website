@@ -1,0 +1,244 @@
+/* HeroMockup — 3D Perspective App Mockup */
+
+/* ========================================
+   Outer Perspective Container
+   ======================================== */
+
+.hero-mockup {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 580px;
+  animation: mockup-float 6s ease-in-out infinite;
+}
+
+@keyframes mockup-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ========================================
+   Inner Mockup (3D Tilt)
+   ======================================== */
+
+.hero-mockup__inner {
+  transform: rotateY(-4deg) rotateX(3deg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow:
+    0 8px 60px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+
+/* ========================================
+   App Title Bar
+   ======================================== */
+
+.mock-titlebar {
+  height: 28px;
+  background: var(--titlebar-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+  user-select: none;
+}
+
+.mock-titlebar__text {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.mock-titlebar__spacer {
+  width: 52px; /* balances the window controls width */
+}
+
+/* ========================================
+   App Body (Sidebar + Canvas)
+   ======================================== */
+
+.mock-body {
+  display: flex;
+  height: 310px;
+}
+
+/* ========================================
+   Sidebar
+   ======================================== */
+
+.mock-sidebar {
+  width: 130px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 10px 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mock-sidebar__group {
+  margin-bottom: 10px;
+}
+
+.mock-sidebar__group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+}
+
+.mock-sidebar__group-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mock-sidebar__group-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mock-sidebar__group-items {
+  padding-left: 8px;
+}
+
+.mock-sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px 3px 18px;
+  cursor: default;
+  transition: background 0.15s ease;
+}
+
+.mock-sidebar__item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mock-sidebar__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mock-sidebar__label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========================================
+   Canvas
+   ======================================== */
+
+.mock-canvas {
+  flex: 1;
+  background: var(--bg-canvas);
+  position: relative;
+  overflow: hidden;
+  /* Subtle grid pattern */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+.mock-canvas__guides {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ========================================
+   Terminal Panels (positioned on canvas)
+   ======================================== */
+
+.mock-panel {
+  position: absolute;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg-panel);
+  z-index: 1;
+  transition: box-shadow 0.3s ease;
+}
+
+/* API Server — top-left */
+.mock-panel--api {
+  top: 8px;
+  left: 8px;
+  width: 52%;
+  height: 42%;
+}
+
+/* Dev Server — top-right */
+.mock-panel--dev {
+  top: 8px;
+  right: 8px;
+  width: 44%;
+  height: 42%;
+}
+
+/* Claude AI — bottom-center */
+.mock-panel--claude {
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 48%;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 968px) {
+  .hero-mockup {
+    max-width: 480px;
+  }
+
+  .mock-body {
+    height: 260px;
+  }
+
+  .mock-sidebar {
+    width: 110px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-mockup {
+    max-width: 100%;
+  }
+
+  .mock-body {
+    height: 220px;
+  }
+
+  .mock-sidebar {
+    width: 90px;
+  }
+
+  .mock-sidebar__label,
+  .mock-sidebar__group-name {
+    font-size: 9px;
+  }
+}

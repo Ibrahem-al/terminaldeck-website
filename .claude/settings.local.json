@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Read(//tmp/**)",
+      "Bash(grep -oP '[a-zA-Z_$]*[Ff]eather[a-zA-Z_$]*')",
+      "Bash(grep -oP '[a-zA-Z_$]*[Mm]otion[Pp]ath[a-zA-Z_$]*')",
+      "Bash(grep -oP '[a-zA-Z_$]*[Ss]croll[a-zA-Z_$]*')",
+      "Bash(perl:*)",
+      "Bash(grep -c '<script' echo \"---\" curl -sL \"https://broadwayplatform.com/\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(wc -l docs/*/* docs/*)"
+    ]
+  }
+}

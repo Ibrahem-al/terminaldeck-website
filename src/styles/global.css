@@ -1,0 +1,136 @@
+/* TerminalDeck Website — Global Styles */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* TerminalDeck Dark Theme (default) */
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #16162a;
+  --bg-canvas: #0f0f1a;
+  --bg-panel: #1a1a2e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #8888aa;
+  --accent: #4a9eff;
+  --accent-glow: rgba(74, 158, 255, 0.25);
+  --border: #2a2a44;
+  --titlebar-bg: #0a0a14;
+  --sidebar-bg: #121222;
+
+  /* Indicator lights */
+  --indicator-off: #555;
+  --indicator-blue: #4a9eff;
+  --indicator-green: #4aff7a;
+  --indicator-yellow: #ffda4a;
+  --indicator-orange: #f97316;
+
+  /* Snap guides */
+  --snap-guide: #4a9eff66;
+
+  /* Terminal */
+  --terminal-bg: #0f0f1a;
+  --terminal-fg: #e0e0e0;
+  --font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Transitions (matching Broadway) */
+  --transition: 0.3s ease;
+  --transition-medium: 0.45s ease-in-out;
+  --transition-slow: 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-button: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  /* Layout */
+  --header-height: 72px;
+  --section-padding: clamp(80px, 10vw, 160px);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ebebeb;
+  --bg-canvas: #f5f5f5;
+  --bg-panel: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --accent: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.25);
+  --border: #d1d5db;
+  --titlebar-bg: #e5e5e5;
+  --sidebar-bg: #f0f0f0;
+  --terminal-bg: #ffffff;
+  --terminal-fg: #1a1a2e;
+  --snap-guide: #2563eb66;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-display);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+html.no-scroll,
+html.no-scroll body {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+
+p {
+  max-width: 65ch;
+}
+
+/* Utility */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}

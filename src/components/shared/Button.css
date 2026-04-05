@@ -1,0 +1,87 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: transform var(--transition), box-shadow var(--transition);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.btn--md {
+  padding: 12px 28px;
+  font-size: 15px;
+}
+
+.btn--lg {
+  padding: 16px 36px;
+  font-size: 17px;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Underline wipe effect */
+.btn::before,
+.btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.btn::before {
+  transform-origin: 100%;
+  transform: scaleX(1);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn::after {
+  transform-origin: 0;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
+}
+
+.btn:hover::before {
+  transform: scaleX(0);
+  transition-delay: 0s;
+}
+
+.btn:hover::after {
+  transform: scaleX(1);
+  transition-delay: 0.2s;
+}
+
+.btn__text {
+  position: relative;
+  z-index: 1;
+}

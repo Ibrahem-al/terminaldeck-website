@@ -1,0 +1,71 @@
+.download-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: rgba(74, 158, 255, 0.08);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 32px;
+}
+
+.download-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--indicator-green);
+  box-shadow: 0 0 4px var(--indicator-green);
+}
+
+.download-subtitle {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  text-align: center;
+  max-width: 560px;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.download-meta {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.download-meta__sep {
+  opacity: 0.3;
+}
+
+@media (max-width: 640px) {
+  .download-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .download-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

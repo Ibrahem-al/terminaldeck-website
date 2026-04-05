@@ -1,0 +1,119 @@
+/* InteractiveSection — Demo Canvas Section */
+
+.interactive {
+  text-align: center;
+}
+
+.interactive__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.interactive__heading {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.interactive__subtitle {
+  font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 52ch;
+  margin: 0 auto 48px;
+}
+
+/* ========================================
+   Canvas Container
+   ======================================== */
+
+.interactive__canvas-wrapper {
+  max-width: 680px;
+  height: 520px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+/* ========================================
+   Reset Button
+   ======================================== */
+
+.interactive__reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.interactive__reset:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.06);
+}
+
+.interactive__reset svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ========================================
+   Mobile Static Fallback
+   ======================================== */
+
+.interactive__mobile-fallback {
+  display: none;
+}
+
+.interactive__mobile-img {
+  max-width: 480px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.interactive__mobile-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  font-style: italic;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+  .interactive__canvas-wrapper {
+    display: none;
+  }
+
+  .interactive__reset {
+    display: none;
+  }
+
+  .interactive__mobile-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+  .interactive__canvas-wrapper {
+    max-width: 580px;
+    height: 460px;
+  }
+}
