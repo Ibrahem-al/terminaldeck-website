@@ -36,6 +36,14 @@ export const FEATURES = [
       "A hotkey maximizes a single terminal to fill the entire window with a smooth zoom animation, dimming everything else.",
     detail: "Press Escape to return to the full canvas. Perfect for deep work.",
   },
+  {
+    id: "embed",
+    title: "External Window Embedding",
+    description:
+      "Drag any OS application window — browser, VS Code, Slack — onto the canvas as an embedded, interactive panel.",
+    detail:
+      "Available on both Windows (DWM thumbnail API) and macOS (native Objective-C integration).",
+  },
 ] as const;
 
 export const BENTO_FEATURES = [
@@ -95,6 +103,7 @@ export const COMPARISON_DATA = {
     "Spatial canvas",
     "Free-form arrangement",
     "AI status indicators",
+    "External window embedding",
     "Project organization",
     "Layout presets",
     "Snap guides",
@@ -104,27 +113,27 @@ export const COMPARISON_DATA = {
     {
       name: "TerminalDeck",
       highlight: true,
-      values: [true, true, true, true, true, true, true],
+      values: [true, true, true, true, true, true, true, true],
     },
     {
       name: "iTerm2",
       highlight: false,
-      values: [false, false, false, false, false, false, false],
+      values: [false, false, false, false, false, false, false, false],
     },
     {
       name: "Windows Terminal",
       highlight: false,
-      values: [false, false, false, false, false, false, false],
+      values: [false, false, false, false, false, false, false, false],
     },
     {
       name: "Hyper",
       highlight: false,
-      values: [false, false, false, false, false, true, false],
+      values: [false, false, false, false, false, false, true, false],
     },
     {
       name: "Warp",
       highlight: false,
-      values: [false, false, "partial", false, false, false, false],
+      values: [false, false, "partial", false, false, false, false, false],
     },
   ],
 } as const;

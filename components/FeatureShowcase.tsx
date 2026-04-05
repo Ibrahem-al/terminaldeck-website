@@ -8,10 +8,11 @@ import {
   Magnet,
   FolderKanban,
   Maximize2,
+  AppWindow,
 } from "lucide-react";
 import { FEATURES } from "@/lib/constants";
 
-const FEATURE_ICONS = [Layers, Activity, Magnet, FolderKanban, Maximize2];
+const FEATURE_ICONS = [Layers, Activity, Magnet, FolderKanban, Maximize2, AppWindow];
 
 function CanvasStage({ activeIndex }: { activeIndex: number }) {
   return (
@@ -172,6 +173,40 @@ function CanvasStage({ activeIndex }: { activeIndex: number }) {
         </div>
       </motion.div>
 
+      {/* Embedded panel (VS Code) - appears at stage 5 */}
+      <motion.div
+        className="absolute rounded-lg overflow-hidden"
+        style={{
+          width: "32%", height: "35%", right: "5%", top: "55%",
+          background: "#1e1e2e",
+          border: "1px solid #2a2a44",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+        }}
+        animate={{
+          opacity: activeIndex >= 5 ? 1 : 0,
+          x: activeIndex >= 5 ? 0 : 60,
+          scale: activeIndex >= 5 ? 1 : 0.9,
+          filter: activeIndex === 4 ? "blur(2px) brightness(0.4)" : "none",
+        }}
+        transition={{ type: "spring", stiffness: 150, damping: 20 }}
+      >
+        <div className="flex items-center gap-1.5 px-2 py-1" style={{ background: "#16162a", borderBottom: "1px solid #2a2a44" }}>
+          <svg width="10" height="10" viewBox="0 0 16 16" fill="#4a9eff">
+            <path d="M14.5 1L11 3.5L6 1L1.5 3.5V14.5L6 12L11 14.5L14.5 12V1Z" strokeWidth="0" />
+          </svg>
+          <span className="text-[8px] font-mono text-text-secondary/60">VS Code — main.ts</span>
+        </div>
+        <div className="p-1.5 space-y-0.5">
+          <div className="flex gap-1">
+            <div className="h-1 w-3 rounded-full" style={{ background: "#c586c044" }} />
+            <div className="h-1 w-6 rounded-full" style={{ background: "#4ec9b044" }} />
+          </div>
+          <div className="h-1 rounded-full w-4/5" style={{ background: "#8888aa22" }} />
+          <div className="h-1 rounded-full w-3/5 ml-3" style={{ background: "#dcdcaa44" }} />
+          <div className="h-1 rounded-full w-2/3 ml-3" style={{ background: "#8888aa22" }} />
+        </div>
+      </motion.div>
+
       {/* Snap guide lines - appear at stage 2 */}
       <motion.div
         className="absolute pointer-events-none"
@@ -211,7 +246,7 @@ export function FeatureShowcase() {
       const sectionHeight = section.offsetHeight;
       const scrolledInSection = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolledInSection / (sectionHeight - window.innerHeight)));
-      const featureIndex = Math.min(4, Math.floor(progress * 5));
+      const featureIndex = Math.min(5, Math.floor(progress * 6));
       setActiveFeature(featureIndex);
     };
 
