@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Layers,
   Activity,
@@ -11,6 +11,7 @@ import {
   AppWindow,
 } from "lucide-react";
 import { FEATURES } from "@/lib/constants";
+import { ScrollReveal } from "./ScrollReveal";
 
 const FEATURE_ICONS = [Layers, Activity, Magnet, FolderKanban, Maximize2, AppWindow];
 
@@ -232,141 +233,128 @@ function CanvasStage({ activeIndex }: { activeIndex: number }) {
   );
 }
 
-export function FeatureShowcase() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeFeature, setActiveFeature] = useState(0);
-  const isInView = useInView(sectionRef, { margin: "-20%" });
+// Each feature card on the left — observed individually
+function FeatureCard({
+  feature,
+  index,
+  onVisible,
+}: {
+  feature: (typeof FEATURES)[number];
+  index: number;
+  onVisible: (index: number) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const Icon = FEATURE_ICONS[index];
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const el = ref.current;
+    if (!el) return;
 
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const sectionHeight = section.offsetHeight;
-      const scrolledInSection = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolledInSection / (sectionHeight - window.innerHeight)));
-      const featureIndex = Math.min(5, Math.floor(progress * 6));
-      setActiveFeature(featureIndex);
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) onVisible(index);
+      },
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+    );
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index, onVisible]);
 
   return (
-    <section
-      ref={sectionRef}
-      id="features"
-      className="relative"
-      style={{ minHeight: "300vh" }}
+    <motion.div
+      ref={ref}
+      className="py-14 first:pt-4 last:pb-4"
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <div className="sticky top-0 min-h-screen flex items-center py-12 lg:py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
-          {/* Section header */}
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 0.5 }}
-          >
+      <div className="flex items-start gap-4">
+        <div
+          className="shrink-0 p-2.5 rounded-xl"
+          style={{ background: "#4a9eff10", border: "1px solid #4a9eff25" }}
+        >
+          <Icon size={20} className="text-accent" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-text-primary mb-2">
+            {feature.title}
+          </h3>
+          <p className="text-sm text-text-secondary leading-relaxed mb-1.5">
+            {feature.description}
+          </p>
+          <p className="text-xs text-text-secondary/60 leading-relaxed">
+            {feature.detail}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export function FeatureShowcase() {
+  const [activeFeature, setActiveFeature] = useState(0);
+
+  return (
+    <section id="features" className="relative py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section header */}
+        <ScrollReveal>
+          <div className="text-center mb-16">
             <h2
-              className="font-bold tracking-tight text-text-primary mb-3"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)" }}
+              className="font-bold tracking-tight text-text-primary mb-4"
+              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
             >
               Everything you need,{" "}
               <span className="text-accent">nothing you don&apos;t.</span>
             </h2>
-            <p className="text-text-secondary text-base max-w-xl mx-auto">
+            <p className="text-text-secondary text-lg max-w-xl mx-auto">
               Built from the ground up for developers managing complex workflows
               across multiple terminals.
             </p>
-          </motion.div>
+          </div>
+        </ScrollReveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Feature list — compact */}
-            <div className="space-y-1">
-              {FEATURES.map((feature, i) => {
-                const Icon = FEATURE_ICONS[i];
-                const isActive = activeFeature === i;
+        {/* Two-column layout: scrolling text left, sticky visual right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          {/* Left column: features scroll naturally */}
+          <div className="divide-y divide-border/30">
+            {FEATURES.map((feature, i) => (
+              <FeatureCard
+                key={feature.id}
+                feature={feature}
+                index={i}
+                onVisible={setActiveFeature}
+              />
+            ))}
+          </div>
 
-                return (
-                  <motion.div
-                    key={feature.id}
-                    className="relative rounded-lg px-4 py-3 transition-all duration-300 cursor-default"
-                    style={{
-                      background: isActive ? "#16162a" : "transparent",
-                      border: isActive ? "1px solid #2a2a44" : "1px solid transparent",
-                    }}
-                    animate={{
-                      x: isActive ? 0 : -4,
-                      opacity: isActive ? 1 : 0.45,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {isActive && (
-                      <motion.div
-                        className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 rounded-full bg-accent"
-                        layoutId="activeIndicator"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
-
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="shrink-0 p-1.5 rounded-md"
-                        style={{
-                          background: isActive ? "#4a9eff15" : "#16162a",
-                          border: `1px solid ${isActive ? "#4a9eff33" : "#2a2a44"}`,
-                        }}
-                      >
-                        <Icon size={15} className={isActive ? "text-accent" : "text-text-secondary"} />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className={`text-sm font-semibold leading-tight ${isActive ? "text-text-primary" : "text-text-secondary"}`}>
-                          {feature.title}
-                        </h3>
-                        {isActive && (
-                          <motion.p
-                            className="text-xs text-text-secondary leading-snug mt-1"
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            {feature.detail}
-                          </motion.p>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Right: Animated canvas */}
-            <div className="hidden lg:block">
+          {/* Right column: sticky canvas that reacts to which feature is in view */}
+          <div className="hidden lg:block">
+            <div className="sticky top-28">
               <CanvasStage activeIndex={activeFeature} />
-            </div>
-          </div>
 
-          {/* Progress bar */}
-          <div className="mt-6 max-w-xs mx-auto">
-            <div className="flex items-center gap-1.5">
-              {FEATURES.map((_, i) => (
-                <div
-                  key={i}
-                  className="h-1 flex-1 rounded-full transition-all duration-300"
-                  style={{
-                    background: i <= activeFeature ? "#4a9eff" : "#2a2a44",
-                    boxShadow: i === activeFeature ? "0 0 6px rgba(74,158,255,0.4)" : "none",
-                  }}
-                />
-              ))}
+              {/* Progress indicator below canvas */}
+              <div className="mt-5 flex items-center gap-1.5 max-w-xs mx-auto">
+                {FEATURES.map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-1 flex-1 rounded-full transition-all duration-300"
+                    style={{
+                      background: i <= activeFeature ? "#4a9eff" : "#2a2a44",
+                      boxShadow: i === activeFeature ? "0 0 6px rgba(74,158,255,0.4)" : "none",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-            <p className="text-center text-[10px] text-text-secondary/50 mt-2 font-mono">
-              Scroll to explore {activeFeature + 1}/{FEATURES.length}
-            </p>
           </div>
+        </div>
+
+        {/* Mobile: show canvas statically below features (no sticky on mobile) */}
+        <div className="lg:hidden mt-12">
+          <CanvasStage activeIndex={5} />
         </div>
       </div>
     </section>
