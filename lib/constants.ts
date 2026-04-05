@@ -99,8 +99,8 @@ export const BENTO_FEATURES = [
   {
     title: "Startup Commands",
     description:
-      "3-tier cascade: Global, Project, and Instance-level auto-run commands",
-    detail: "Automate terminal setup with a 3-tier cascading command system. Global commands run for every new terminal (e.g., source ~/.bashrc). Project commands run for every terminal in a project (e.g., cd ~/projects/server && source .env). Instance commands run for a specific terminal (e.g., npm run dev). Each level extends the one above — no more manually typing setup commands.",
+      "3-tier override: Global, Project, and Instance-level auto-run commands",
+    detail: "Automate terminal setup with a 3-tier command system where each level overrides the one above. Global commands are the default for every new terminal (e.g., source ~/.bashrc). If a Project defines its own startup commands (e.g., cd ~/projects/server && source .env), those run instead of the global ones. If an Instance has its own commands (e.g., npm run dev), those take priority over both project and global. The most specific level always wins — no duplicate or conflicting commands.",
     icon: "terminal" as const,
     size: "wide" as const,
   },
