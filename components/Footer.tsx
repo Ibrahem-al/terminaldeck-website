@@ -10,23 +10,13 @@ const LINK_GROUPS = [
       { label: "Features", href: "#features" },
       { label: "How It Works", href: "#how-it-works" },
       { label: "Download", href: "#download" },
-      { label: "Changelog", href: "#" },
     ],
   },
   {
-    title: "Resources",
+    title: "Legal",
     links: [
-      { label: "Documentation", href: "#" },
-      { label: "GitHub", href: "#" },
-      { label: "Deployment Guide", href: "#" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "#" },
-      { label: "Contact", href: "#" },
       { label: "Privacy", href: "#" },
+      { label: "Terms", href: "#" },
     ],
   },
 ];
@@ -41,7 +31,7 @@ export function Footer() {
       }}
     >
       <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
           {/* Brand column */}
           <ScrollReveal delay={0}>
             <div className="md:col-span-1">
@@ -82,7 +72,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <ScrollReveal delay={0.35}>
+        <ScrollReveal delay={0.25}>
           <div
             className="pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ borderColor: "#2a2a44" }}

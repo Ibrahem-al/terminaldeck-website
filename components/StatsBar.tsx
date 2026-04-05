@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Zap, Monitor, LayoutGrid, Activity } from "lucide-react";
 
 const STATS = [
-  { icon: Zap, value: "Free", label: "& Open Source", isText: true },
+  { icon: Zap, value: "Free", label: "to Download", isText: true },
   { icon: Monitor, value: "2", label: "Platforms", suffix: "", isText: false },
   { icon: LayoutGrid, value: "5", label: "Layout Presets", suffix: "+", isText: false },
   { icon: Activity, value: "4", label: "AI Tools Detected", suffix: "", isText: false },

@@ -18,7 +18,7 @@ const FLOATING_TAGS = [
   { label: "AI-Aware", x: "8%", y: "18%", delay: 0 },
   { label: "Snap Guides", x: "82%", y: "22%", delay: 1.5 },
   { label: "Cross-Platform", x: "5%", y: "72%", delay: 3 },
-  { label: "Open Source", x: "88%", y: "68%", delay: 4.5 },
+  { label: "Persistence", x: "88%", y: "68%", delay: 4.5 },
   { label: "Infinite Canvas", x: "14%", y: "45%", delay: 2.2 },
   { label: "Focus Mode", x: "80%", y: "45%", delay: 3.8 },
 ];
