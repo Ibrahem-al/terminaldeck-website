@@ -9,7 +9,13 @@
       "Bash(perl:*)",
       "Bash(grep -c '<script' echo \"---\" curl -sL \"https://broadwayplatform.com/\")",
       "Bash(grep -v \"^$\")",
-      "Bash(wc -l docs/*/* docs/*)"
+      "Bash(wc -l docs/*/* docs/*)",
+      "Bash(kill %1)",
+      "Bash(node -e \"try { require.resolve\\('lenis'\\); console.log\\('lenis: OK'\\); } catch\\(e\\) { console.log\\('lenis: MISSING'\\); }\")",
+      "Bash(node -e \"try { require.resolve\\('gsap'\\); console.log\\('gsap: OK'\\); } catch\\(e\\) { console.log\\('gsap: MISSING'\\); }\")",
+      "Bash(node -e \"try { require.resolve\\('zustand'\\); console.log\\('zustand: OK'\\); } catch\\(e\\) { console.log\\('zustand: MISSING'\\); }\")",
+      "Bash(rm -f postcss.config.mjs eslint.config.mjs next.config.ts next-env.d.ts)",
+      "Bash(rm -rf app/)"
     ]
   }
 }
